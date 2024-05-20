@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate PPTX from JSON</title>
+    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+</head>
+
+<body>
+    <button id="generate-pptx">Generate PowerPoint</button>
+    <script>
+        document.getElementById('generate-pptx').addEventListener('click', function () {
+            // Sample JSON data
+            const jsonData = {
+                "title": "Sample Presentation",
+                "slides": [
+                    {
+                        "title": "Slide 1 Title",
+                        "content": "This is the content of Slide 1."
+                    },
+                    {
+                        "title": "Slide 2 Title",
+                        "content": "This is the content of Slide 2."
+                    }
+                ]
+            };
+
+            // Initialize the presentation
+            let pptx = new PptxGenJS();
+            pptx.title = jsonData.title;
+
+            // Iterate over the slides in the JSON data
+            jsonData.slides.forEach((slideData) => {
+                let slide = pptx.addSlide();
+                slide.addText(
+                    slideData.title,
+                    { x: 1, y: 0.5, fontSize: 24, bold: true, color: 'fb4275' }
+                );
+                slide.addText(
+                    slideData.content,
+                    { x: 1, y: 1.5, fontSize: 18, color: '6f6f6f' }
+                );
+            });
+
+            // Save the presentation
+            pptx.writeFile({ fileName: jsonData.title + '.pptx' });
+        });
+    </script>
+</body>
+
+</html>
